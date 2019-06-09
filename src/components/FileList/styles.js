@@ -19,6 +19,7 @@ export const FileInfo = styled.div`
   div {
     display: flex;
     flex-direction: column;
+    margin-top: 5px;
     span {
       font-size: 12px;
       color: #999;
@@ -35,8 +36,8 @@ export const FileInfo = styled.div`
 `;
 
 export const Preview = styled.div`
-  width: 36px;
-  height: 36px;
+  width: 70px;
+  height: 60px;
   border-radius: 5px;
   background-image: url(${props => props.src});
   background-repeat: no-repeat;

@@ -10,9 +10,13 @@ import { Container, Content } from "./styles";
 import Upload from "./components/Upload";
 import FileList from "./components/FileList";
 
+import {ToastsContainer, ToastsContainerPosition, ToastsStore} from 'react-toasts';
+
 class App extends Component {
   state = {
-    uploadedFiles: []
+    uploadedFiles: [],
+    fileLimit: 0,
+    firstInsert: 0
   };
 
   async componentDidMount() {
@@ -26,11 +30,38 @@ class App extends Component {
         preview: file.url,
         uploaded: true,
         url: file.url
-      }))
+      })),
+    });
+
+    this.setState({
+      fileLimit: this.state.uploadedFiles.length
     });
   }
 
   handleUpload = files => {
+    this.setState({
+      fileLimit: this.state.fileLimit + files.length
+    })
+
+    if(this.state.firstInsert !== 0 && this.state.fileLimit === 11){
+      ToastsStore.info("Desculpe só é permitido somente até 11 imagens!")
+      return;
+    }
+
+    if(this.state.firstInsert === 0 && this.state.fileLimit > 11){
+      ToastsStore.info("Desculpe só é permitido somente até 11 imagens!")
+      files.splice(11, files.length);
+      if(files.length < 11){
+        files = [];
+        return;
+      }
+
+      this.setState({
+        firstInsert: this.state.firstInsert + 1,
+        fileLimit: 11
+      })
+    }
+    
     const uploadedFiles = files.map(file => ({
       file,
       id: uniqueId(),
@@ -93,7 +124,8 @@ class App extends Component {
     await api.delete(`posts/${id}`);
 
     this.setState({
-      uploadedFiles: this.state.uploadedFiles.filter(file => file.id !== id)
+      uploadedFiles: this.state.uploadedFiles.filter(file => file.id !== id),
+      fileLimit: this.state.fileLimit - 1
     });
   };
 
@@ -112,6 +144,7 @@ class App extends Component {
             <FileList files={uploadedFiles} onDelete={this.handleDelete} />
           )}
         </Content>
+        <ToastsContainer position={ToastsContainerPosition.TOP_RIGHT} store={ToastsStore}/>
         <GlobalStyle />
       </Container>
     );

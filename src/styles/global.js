@@ -15,6 +15,8 @@ export default createGlobalStyle`
         background: #7159c1;
         text-rendering: optimizeLegibility;
         -webkit-font-smoothing: antialiased;
+        background-image: url("http://thacarveiculos.com.br/images/fundinho.png");
+        background-repeat: repeat-y;
     }
 
     html, body, #root {
