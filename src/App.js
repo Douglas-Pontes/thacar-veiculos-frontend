@@ -20,7 +20,7 @@ class App extends Component {
   };
 
   async componentDidMount() {
-    const response = await api.get("posts");
+    const response = await api.get("carimages");
 
     this.setState({
       uploadedFiles: response.data.map(file => ({
@@ -97,7 +97,7 @@ class App extends Component {
     data.append("file", uploadedFile.file, uploadedFile.name);
 
     api
-      .post("posts", data, {
+      .post("carimages", data, {
         onUploadProgress: e => {
           const progress = parseInt(Math.round((e.loaded * 100) / e.total));
 
@@ -121,7 +121,7 @@ class App extends Component {
   };
 
   handleDelete = async id => {
-    await api.delete(`posts/${id}`);
+    await api.delete(`carimages/${id}`);
 
     this.setState({
       uploadedFiles: this.state.uploadedFiles.filter(file => file.id !== id),
