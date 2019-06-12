@@ -138,8 +138,7 @@ class App extends Component {
 
     return (
       <Container>
-            <Content>
-            <a href="itms-services%3A%2F%2F%3Faction%3Ddownload-manifest%26url%3Dhttps%3A%2F%2Fappnossogrupo.blob.core.windows.net%2Ficon%2Fmanifest.plist">TESTE</a>
+        <Content>
           <Upload onUpload={this.handleUpload} />
           {!!uploadedFiles.length && (
             <FileList files={uploadedFiles} onDelete={this.handleDelete} />
